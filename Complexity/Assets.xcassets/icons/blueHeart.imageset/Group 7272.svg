@@ -1,0 +1,7 @@
+<svg id="Group_7272" data-name="Group 7272" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+  <g id="Ellipse_45" data-name="Ellipse 45" fill="#4f87cb" stroke="#4f87cb" stroke-width="1" opacity="0.987">
+    <circle cx="9" cy="9" r="9" stroke="none"/>
+    <circle cx="9" cy="9" r="8.5" fill="none"/>
+  </g>
+  <path id="heart" d="M3.868,3a2.035,2.035,0,0,1,1.41.781l.229.229.21-.229A2.153,2.153,0,0,1,7.185,3,1.816,1.816,0,0,1,9,5.021a3.72,3.72,0,0,1-1.182,2.1A14.517,14.517,0,0,1,5.489,9.024,14.884,14.884,0,0,1,3.163,7.117,3.515,3.515,0,0,1,2,5.04,1.887,1.887,0,0,1,3.868,3Z" transform="translate(3.169 2.896)" fill="#fff"/>
+</svg>

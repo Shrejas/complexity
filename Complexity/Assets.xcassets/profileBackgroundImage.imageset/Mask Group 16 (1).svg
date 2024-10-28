@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="393" height="504" viewBox="0 0 393 504">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_105" data-name="Rectangle 105" width="393" height="504" fill="#fff"/>
+    </clipPath>
+  </defs>
+  <g id="Mask_Group_16" data-name="Mask Group 16" clip-path="url(#clip-path)">
+    <g id="Group_7275" data-name="Group 7275" transform="translate(328 -90.494)">
+      <rect id="Rectangle_89" data-name="Rectangle 89" width="187" height="406" transform="translate(-236 3.494)" fill="#e2fdf9"/>
+      <g id="Group_7246" data-name="Group 7246" transform="translate(-450 -42.237)">
+        <ellipse id="Ellipse_58" data-name="Ellipse 58" cx="122" cy="122.5" rx="122" ry="122.5" transform="translate(196 195.73)" fill="#e6fffb"/>
+        <circle id="Ellipse_59" data-name="Ellipse 59" cx="318.5" cy="318.5" r="318.5" transform="translate(0 -0.27)" fill="#f0fffd" opacity="0.9"/>
+        <ellipse id="Ellipse_60" data-name="Ellipse 60" cx="289" cy="288.5" rx="289" ry="288.5" transform="translate(29 29.73)" fill="#e1fdf9"/>
+        <circle id="Ellipse_61" data-name="Ellipse 61" cx="256.5" cy="256.5" r="256.5" transform="translate(62 61.73)" fill="#f0fffd" opacity="0.9"/>
+        <circle id="Ellipse_62" data-name="Ellipse 62" cx="216" cy="216" r="216" transform="translate(102 102.73)" fill="#e1fdf9"/>
+        <circle id="Ellipse_63" data-name="Ellipse 63" cx="185" cy="185" r="185" transform="translate(133 133.73)" fill="#f0fffd" opacity="0.9"/>
+        <circle id="Ellipse_64" data-name="Ellipse 64" cx="150" cy="150" r="150" transform="translate(168 168.73)" fill="#e1fdf9"/>
+        <ellipse id="Ellipse_65" data-name="Ellipse 65" cx="115" cy="114.5" rx="115" ry="114.5" transform="translate(203 203.73)" fill="#f0fffd" opacity="0.9"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.958582851378-rhi9162po1qk8mirom0skkreql22fmbd</string>
+			</array>
+		</dict>
+	</array>
+	<key>GIDClientID</key>
+	<string>958582851378-rhi9162po1qk8mirom0skkreql22fmbd.apps.googleusercontent.com</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>New item</key>
+			<string></string>
+		</dict>
+	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Muli-BoldItalic.ttf</string>
+		<string>Muli-Italic.ttf</string>
+		<string>Muli-ExtraLight.ttf</string>
+		<string>Muli-LightItalic.ttf</string>
+		<string>Muli-Semi-BoldItalic.ttf</string>
+		<string>Muli.ttf</string>
+		<string>Muli-SemiBold.ttf</string>
+		<string>Muli-ExtraLightItalic.ttf</string>
+		<string>Muli-Bold.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>processing</string>
+		<string>remote-notification</string>
+	</array>
+</dict>
+</plist>
