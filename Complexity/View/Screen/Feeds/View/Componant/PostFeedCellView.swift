@@ -11,11 +11,12 @@ import Kingfisher
 
 struct PostFeedCellView: View {
     
+    @State public var isShowAlert: Bool = false
     let post: FeedPost
     @State private var expanded: Bool = false
     @State private var truncated: Bool = false
     @State var isFromDrinkDetailProfileView: Bool = false
-    
+    var onCellTap: (() -> Void)?
     private var moreLessText: String {
         if !truncated {
             return ""
@@ -41,15 +42,53 @@ struct PostFeedCellView: View {
             .padding(.top, 15)
             .padding(.bottom, 5)
             .padding(.leading, 15)
+            .onTapGesture {
+                onCellTap?()
+            }
+
             
             VStack(alignment: .leading, spacing: 5) {
-                Text(post.drinkBrand)
-                    .font(.muliFont(size: 12, weight: .semibold))
-                    .foregroundColor(._626465)
+                HStack(spacing: 0) {
+                    Text(post.drinkBrand)
+                        .font(.muliFont(size: 12, weight: .semibold))
+                        .multilineTextAlignment(.leading)
+                        .frame(maxWidth: .infinity, alignment: .topLeading)
+                        .background(Color.white)
+                        .foregroundColor(._626465)
+                        .onTapGesture {
+                            onCellTap?()
+                        }
+                    
+                    if let createdByUser = post.createdByUser {
+                        if createdByUser == UserDefaultManger.getName() {
+                            Menu {
+                                Button(action: {
+                                    NotificationCenter.default.post(name: .postDeleted, object: nil, userInfo: ["postId": post.id])
+                                }) {
+                                    HStack {
+                                        Image(systemName: "trash")
+                                        Text("Delete")
+                                            .font(.muliFont(size: 12, weight: .regular))
+                                    }
+                                    .frame(width: 50, height: 50)
+                                }
+                            } label: {
+                                Image(ImageConstant.dot)
+                                    .frame(width: 30, height: 25)
+                            }
+                            
+                        }
+                    }
+                }
                     
                 Text(post.drinkName)
                     .font(.muliFont(size: 15, weight: .bold))
                     .foregroundColor(._1D1A1A)
+                    .frame(maxWidth: .infinity, alignment: .topLeading)
+                    .background(Color.white)
+                    .onTapGesture {
+                        onCellTap?()
+                    }
                 
                 HStack(spacing: 3) {
                     Text("\(post.rating ?? 0)")
@@ -88,7 +127,11 @@ struct PostFeedCellView: View {
                     }
                     
                 }
+                .background(Color.white)
                 .padding(.bottom, 8)
+                .onTapGesture {
+                    onCellTap?()
+                }
                 
                 VStack(alignment: .leading) {
                     if let caption = post.caption {
@@ -135,32 +178,24 @@ struct PostFeedCellView: View {
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .background(Color.white)
+                .onTapGesture {
+                    onCellTap?()
+                }
             }
             .padding(.leading, 15)
             .padding(.top, 15)
             
             Spacer()
         }
-        .onAppear {
-//            rating = post.rating ?? 0
-//            likeCount = post.likeCount
-//            commentCount = post.commentCount
-        }
-        .frame(width: UIScreen.main.bounds.width - 34) //, height: 150)
-//        .padding(10)
+        .frame(width: UIScreen.main.bounds.width - 34)
         .background(Color.white)
         .cornerRadius(20)
-//        .background(
-//            GeometryReader { geometry in
-//                VStack {
-//                    Spacer()
-//                    Color.white
-//                        .frame(height: 1)
-//                        .shadow(color: Color.gray.opacity(0.5), radius: 3, x: 0, y: 1)
-//                }
-//                .frame(width: geometry.size.width, height: geometry.size.height, alignment: .bottom)
-//            }
-//        )
+        .alert(isPresented: $isShowAlert) {
+            Alert(title: Text("Delete"), message: Text("Are you sure you want to delete this post?"), primaryButton: .destructive(Text("Yes").foregroundColor(.red)) {
+                
+            }, secondaryButton: .cancel())
+        }
     }
     
 }

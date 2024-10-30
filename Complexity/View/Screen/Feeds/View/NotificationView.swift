@@ -17,7 +17,7 @@ struct NotificationView: View {
     @State public var userInfo: UserInfo?
     @State private var isShowProfileView: Bool = false
     @StateObject var feedViewModel: FeedViewModel = FeedViewModel()
-    
+    @State private var isShowActionSheet: Bool = false
     var body: some View {
         
         NavigationLink(isActive: $isShowProfileView) {
@@ -50,43 +50,104 @@ struct NotificationView: View {
                             .foregroundColor(.black.opacity(0.5))
                     }
                 } else {
-                    List {
-                        ForEach(notifications.indices, id: \.self) { index in
-                            CustomCell(imageName: notifications[index].profilePicture, text: notifications[index].notificationMessage, createdAt: notifications[index].createdTime, createdBy: notifications[index].name, userID: notifications[index].userId) { userId in
-                                handleProfileImageTap(userId: userId)
-                            }
-                            .onAppear {
-                                if notifications.count > feedViewModel.notificationPageSize * feedViewModel.notificationPageIndex {
-                                    if index == notifications.count - 1 {
-                                        feedViewModel.notificationPageIndex += 1
-                                        feedViewModel.getNotification()
+//                    List {
+//                        ForEach(notifications.indices, id: \.self) { index in
+//                            ZStack {
+//                                Color._E9F2FE
+//                                CustomCell(imageName: notifications[index].profilePicture, text: notifications[index].notificationMessage, createdAt: notifications[index].createdTime, createdBy: notifications[index].name, userID: notifications[index].userId) { userId in
+//                                    handleProfileImageTap(userId: userId)
+//                                }
+//                                .background(Color._E9F2FE)
+//                                .onAppear {
+//                                    if notifications.count > feedViewModel.notificationPageSize * feedViewModel.notificationPageIndex {
+//                                        if index == notifications.count - 1 {
+//                                            feedViewModel.notificationPageIndex += 1
+//                                            feedViewModel.getNotification()
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+                    
+//                    .listRowBackground(Color._F4F6F8)
+//                    .listRowSpacing(10.0)
+                    
+                    ScrollView {
+                        VStack(spacing: 0) {
+                            ForEach(notifications.indices, id: \.self) { index in
+                                ZStack {
+                                    if !notifications[index].isRead {
+                                        Color._E9F2FE
+                                    } 
+                                   else {
+                                       Color.white
+                                    }
+                        
+                                    CustomCell(
+                                        imageName: notifications[index].profilePicture,
+                                        text: notifications[index].notificationMessage,
+                                        createdAt: notifications[index].createdTime,
+                                        createdBy: notifications[index].name,
+                                        userID: notifications[index].userId, id: notifications[index].notificationId
+                                    ) { userId in
+                                        handleProfileImageTap(userId: userId)
+                                    } cellTapAction: { userId in
+                                        handleCellTapAction(id: userId)
+                                    }
+                                    .padding(.horizontal)
+                                    .onAppear {
+                                        if notifications.count >= feedViewModel.notificationPageSize * feedViewModel.notificationPageIndex {
+                                            if index == notifications.count - 1 {
+                                                feedViewModel.notificationPageIndex += 1
+                                                feedViewModel.getNotification()
+                                            }
+                                        }
                                     }
                                 }
+                                .cornerRadius(8)
+                                .padding(.vertical, 4)
                             }
                         }
                     }
-                    
-                    .listRowBackground(Color._F4F6F8)
-                    .listRowSpacing(10.0)
-                    .navigationBarBackButtonHidden(true)
-                    .navigationTitle("Notification")
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            Button {
-                                presentationMode.wrappedValue.dismiss()
-                            } label: {
-                                HStack {
-                                    Image(systemName: "arrow.backward")
-                                        .foregroundColor(Color._626465)
-                                }
-                            }
-                        }
-                    }
+                    .background(Color._F4F6F8)
                 }
             }
-        } .onAppear{
+        }
+        .onAppear{
             feedViewModel.getNotification()
         }
+        .navigationBarTitle(Text("Notification"), displayMode: .inline)
+        .navigationBarItems(leading: Button {
+            presentationMode.wrappedValue.dismiss()
+        } label: {
+            HStack {
+                Image(systemName: "arrow.backward")
+                    .foregroundColor(Color._626465)
+            }
+        }, trailing:
+                                Menu {
+            Button {
+                handleCellTapAction()
+            } label: {
+                HStack(alignment: .center, spacing: 10)  {
+                    Image(systemName: "bell.circle.fill")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                    Text("Mark all as read")
+                        .frame(maxWidth: .infinity, alignment: .topLeading)
+                        .presentationDetents([.height(100), .fraction(0.15)])
+                }
+            }
+            
+            
+        } label: {
+            HStack {
+                Image(ImageConstant.dot)
+                    .foregroundColor(Color._626465)
+            }
+        }
+        ).navigationBarColor(.white)
     }
     
     private func handleProfileImageTap(userId: Int) {
@@ -99,7 +160,10 @@ struct NotificationView: View {
                 break
             }
         }
-        
+    }
+    
+    private func handleCellTapAction(id: Int? = nil) {
+        feedViewModel.readNotification(id: id)
     }
 }
 #Preview {
@@ -112,13 +176,16 @@ struct CustomCell: View {
     var createdAt: String
     var createdBy: String
     var userID: Int
+    var id: Int
     var profileImageTapAction: (Int) -> Void
+    var cellTapAction: (Int) -> Void
     var body: some View {
         
     
         HStack(alignment: .top, spacing: 5) {
             Button {
                 profileImageTapAction(userID)
+                cellTapAction(id)
             } label: {
                 if let imageUrl = URL(string: imageName){
                     KFImage(imageUrl)
@@ -136,32 +203,41 @@ struct CustomCell: View {
                 }
             }
 
-            
-            VStack {
-                HStack {
-                    Text(createdBy)
-                        .font(.muliFont(size: 14, weight: .semibold))
-                        .foregroundColor(.blue)
+            Button {
+                profileImageTapAction(userID)
+                cellTapAction(id)
+            } label: {
+                VStack {
+                    HStack {
+                        Text(createdBy)
+                            .font(.muliFont(size: 14, weight: .semibold))
+                            .foregroundColor(.blue)
+                            .frame(maxWidth: .infinity, alignment: .topLeading)
+                        
+                        Text(createdAt)
+                            .font(.muliFont(size: 13, weight: .light))
+                            .foregroundColor(.gray)
+                        
+                        Image(systemName: "clock" )
+                            .resizable()
+                            .frame(width: 15, height: 15)
+                            .aspectRatio(contentMode: .fit)
+                            .cornerRadius(10)
+                    }
+                    Text(text)
+                        .font(.muliFont(size: 15, weight: .semibold))
+                        .foregroundColor(.black.opacity(0.5))
+                        .multilineTextAlignment(.leading)
                         .frame(maxWidth: .infinity, alignment: .topLeading)
-                    
-                    Text(createdAt)
-                        .font(.muliFont(size: 13, weight: .light))
-                        .foregroundColor(.gray)
-                    Image(systemName: "clock" )
-                        .resizable()
-                        .frame(width: 15, height: 15)
-                        .aspectRatio(contentMode: .fit)
-                        .cornerRadius(10)
                 }
-                Text(text)
-                    .font(.muliFont(size: 15, weight: .semibold))
-                    .foregroundColor(.black.opacity(0.5))
-                    .frame(maxWidth: .infinity, alignment: .topLeading)
             }
+
+            
             
         }
         .padding(5)
         .frame(maxWidth: .infinity, alignment: .topLeading)
+        
         
         
     }

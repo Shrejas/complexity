@@ -128,13 +128,21 @@ struct UserProfileView: View {
                         }
                     } else {
                         if !profileViewModel.posts.isEmpty {
-                            List {
-                                ForEach(Array(profileViewModel.posts.enumerated()), id: \.element.postId) { index, post in
-                                    PostFeedCellView(post: post)
-                                        .onTapGesture {
+                            
+                            ScrollView(showsIndicators: false) {
+                                LazyVStack(spacing: 10) {
+                                    ForEach(Array(profileViewModel.posts.enumerated()), id: \.element.postId) { index, post in
+//                                        Button {
+//                                            selectedPostIndex = index
+//                                            isShowFeedDetailView = true
+//                                            
+//                                        } label: {
+                                        PostFeedCellView(post: post) {
                                             selectedPostIndex = index
                                             isShowFeedDetailView = true
                                         }
+//                                        }
+                                        
                                         .onAppear {
                                             if index == profileViewModel.posts.count - 1 {
                                                 print("last id \(post.postId)")
@@ -143,21 +151,17 @@ struct UserProfileView: View {
                                                 }
                                             }
                                         }
-                                        .swipeActions {
-                                            Button {
-                                                self.selectedPostId = post.postId
-                                                showingAlertForDeletePost.toggle()
-                                                
-                                            } label: {
-                                                Label("Delete", systemImage: "trash")
-                                            }
+                                        if isLoadMoreInProcess {
+                                            ProgressView()
                                         }
-                                    if isLoadMoreInProcess {
-                                        ProgressView()
                                     }
+                                    
+                                    Spacer()
+                                        .frame(height: 90)
                                 }
+                                .background(Color._F4F6F8)
                             }
-                            .listRowSpacing(10)
+                            .background(Color._F4F6F8.ignoresSafeArea())
                         }
                         else {
                             Text("You currently have no post.")
@@ -168,6 +172,7 @@ struct UserProfileView: View {
                 }
             }
         }
+        .background(Color._F4F6F8)
         .padding(.top, -50)
         .padding(.horizontal, 20)
         .navigationBarBackButtonHidden(true)
@@ -225,6 +230,14 @@ struct UserProfileView: View {
                 Alert(title: Text(""))
             }
         }
+        
+        .onReceive(NotificationCenter.default.publisher(for: .postDeleted)) { notification in
+            if let postId = notification.userInfo?["postId"] as? Int {
+                self.selectedPostId = postId
+                showingAlertForDeletePost.toggle()
+            }
+        }
+
         .onAppear {
             getBasicInformation()
         }

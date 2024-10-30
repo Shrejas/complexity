@@ -62,6 +62,7 @@ struct Login: View {
                 
                 NavigationLink(isActive: $showHomeView) {
                     HomeView()
+                        .navigationBarBackButtonHidden(true)
                 } label: {
                     EmptyView()
                 }

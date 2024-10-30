@@ -24,7 +24,7 @@ final class FeedViewModel: ObservableObject {
     @Published var notificationPageSize = 10
     @Published var notificationPageIndex: Int = 1
     @Published var userInfo: UserInfo?
-    
+    @Published var hasMore: Bool = true
     func getFeedData(pageIndex: Int, pageSize: Int){
         isLoding = true
         IQAPIClient.getFeed(pageIndex: pageIndex, pageSize: pageSize) { [weak self] rhttpUrlResponse, result  in
@@ -103,18 +103,47 @@ final class FeedViewModel: ObservableObject {
         }
     }
     
+    func resetNotifications() {
+        notificationData = nil
+        notificationPageIndex = 0
+        getNotification()
+    }
+    
     func getNotification() {
         isLoding = true
         IQAPIClient.getNotification(pageIndex: notificationPageIndex, pageSize: notificationPageSize) { httpURLResponse, result in
             self.isLoding = false
             switch result{
             case .success(let data):
-                if var currentData = self.notificationData {
-                    currentData += data
-                    self.notificationData = currentData
-                } else {
-                    self.notificationData = data
-                }
+                if self.notificationPageIndex == 1 {
+                                // Initialize notification data for the first page
+                                self.notificationData = data
+                            } else {
+                                // Append new notifications for subsequent pages
+                                if var existingData = self.notificationData {
+                                    existingData += data
+                                    self.notificationData = existingData
+                                } else {
+                                    self.notificationData = data
+                                }
+                            }
+            case .failure(let error):
+                self.errorMessage = error.localizedDescription
+                self.shouldShowApiAlert = true
+            }
+        }
+    }
+    
+    func readNotification(id: Int? = nil) {
+        isLoding = true
+        IQAPIClient.readNotification(id: id) { httpURLResponse, result in
+            self.isLoding = false
+            switch result{
+            case .success(let data):
+                self.notificationPageIndex = 1
+                self.notificationPageSize = 10
+                self.getNotification()
+                    break
             case .failure(let error):
                 self.errorMessage = error.localizedDescription
                 self.shouldShowApiAlert = true

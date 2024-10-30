@@ -28,6 +28,7 @@ public enum APIPath: String{
     case getPostSearch = "api/Post/search"
     case report = "api/post/report"
     case getNotification = "api/User/notifications"
+    case readNotification = "api/User/notifications/viewstatus"
     case getSearchFeed = "/api/Post/search"
     case getPostLikes = "/api/Post/likes/"
 

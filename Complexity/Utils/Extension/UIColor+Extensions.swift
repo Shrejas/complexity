@@ -20,4 +20,5 @@ extension Color{
     static let _A0A0A0 = Color("A0A0A0")
     static let _BCBBBB = Color("BCBBBB")
     static let _4CC6B2 = Color("4CC6B2")
+    static let _E9F2FE = Color("E9F2FE")
 }

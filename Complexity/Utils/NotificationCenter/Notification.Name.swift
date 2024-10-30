@@ -12,4 +12,5 @@ extension Notification.Name {
     static let userLogoutNotification = Notification.Name(StringConstants.NotificationName.userLogoutNotificationKey)
     static let callRefreshMethod = Notification.Name(StringConstants.NotificationName.callRefreshMethod)
     static let navigateToUserProfile = Notification.Name("navigateToUserProfile")
+    static let postDeleted = Notification.Name("postDeleted")
 }

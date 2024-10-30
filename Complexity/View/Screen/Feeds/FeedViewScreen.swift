@@ -67,10 +67,6 @@ struct FeedViewScreen: View {
                     EmptyView()
                 }
                 
-                NavigationLink(destination: NotificationView(), isActive: $isNotificationViewActive) {
-                    EmptyView()
-                }
-                
                 NavigationLink(isActive: $isLocationTapped) {
                     if let selectedDetailPost = selectedDetailPost {
                         LocationDetailsView(post: selectedDetailPost)
@@ -192,7 +188,7 @@ struct FeedViewScreen: View {
                                 viewModel.searchText = ""
                             }
                         }
-                        VStack{
+                        VStack {
                             Spacer()
                             HStack {
                                 Spacer()
@@ -237,11 +233,12 @@ struct FeedViewScreen: View {
                     store.refresh()
                     feedViewModel.getFeedData(pageIndex: 1, pageSize: 10)
                 }
+                .ignoresSafeArea(.keyboard, edges: .bottom)
                 .navigationBarBackButtonHidden(true)
                 .navigationBarTitle(Text("Feed"), displayMode: .inline)
                 .navigationBarItems(trailing:
                                         Button(action: {
-                    isNotificationViewActive.toggle()
+                    router.navigate(to: .notificationView)
                 }){
                     ZStack {
                         Image(ImageConstant.notificationIcon)
@@ -272,6 +269,11 @@ struct FeedViewScreen: View {
             .sheet(isPresented: $showLikesSheet) {
                 PostLikesSheetView(userInfo: $userInfo, isShowProfileView: $isShowProfileView, postId: $selectedPostIdForShowLikes)
                     .presentationDetents([.fraction(0.8), .large])
+            }
+            .onAppear{
+                searchText = ""
+                viewModel.searchText = ""
+                selectedDrinkId = 0
             }
             
             

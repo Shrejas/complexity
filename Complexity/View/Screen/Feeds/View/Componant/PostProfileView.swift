@@ -23,6 +23,7 @@ struct PostProfileView: View {
     @State var rating: Double = 4.0
     @State var selectedPostIndex: Int = 0
     @State var isShowDrinkDetail: Bool = false
+    @State public var isShowAlert: Bool = false
     @StateObject private var postProfileViewModel: PostProfileViewModel = PostProfileViewModel()
     
     let userInfo: UserInfo
@@ -128,30 +129,38 @@ struct PostProfileView: View {
                     .padding(.bottom, 10)
                     
                     if !postProfileViewModel.posts.isEmpty {
-                        List {
-                            ForEach(Array(postProfileViewModel.posts.enumerated()), id: \.element.postId) { index, post in
-                                
-                                PostFeedCellView(post: post)
-                                    .onAppear {
-                                        if index == postProfileViewModel.posts.count - 1 {
-                                            print("last id \(post.postId)")
-                                            if postProfileViewModel.isLoadingMore {
-                                                postProfileViewModel.loadMore(userId: userInfo.userId)
-                                            }
-                                        }
-                                    }
-                                    .onTapGesture {
+                        ScrollView(showsIndicators: false) {
+                            VStack(spacing: 10) { // Spacing between cells
+                                ForEach(Array(postProfileViewModel.posts.enumerated()), id: \.element.postId) { index, post in
+                                    
+                                    PostFeedCellView(post: post) {
                                         selectedPostIndex = index
                                         isShowDrinkDetail = true
                                     }
-                                
-                                if postProfileViewModel.isLoadMoreProcess {
-                                    ProgressView()
+                                        .onAppear {
+                                            if index == postProfileViewModel.posts.count - 1 {
+                                                print("last id \(post.postId)")
+                                                if postProfileViewModel.isLoadingMore {
+                                                    postProfileViewModel.loadMore(userId: userInfo.userId)
+                                                }
+                                            }
+                                        }
+                                        .onTapGesture {
+                                            selectedPostIndex = index
+                                            isShowDrinkDetail = true
+                                        }
+                                    
+                                    // Loading indicator if loading more items
+                                    if postProfileViewModel.isLoadMoreProcess {
+                                        ProgressView()
+                                    }
                                 }
                             }
+                            .padding(.bottom, 70) // Bottom padding for spacing after the last cell
+                            .background(Color._F4F6F8) // Apply background color directly to the VStack
                         }
-                        .listRowSpacing(10)
-                    } 
+                        .background(Color._F4F6F8.ignoresSafeArea())
+                    }
                     if postProfileViewModel.isLoading {
                         LazyVStack(spacing: 20) {
                             ForEach((1...5), id: \.self) {_ in
@@ -166,6 +175,7 @@ struct PostProfileView: View {
                 }
             }
         }
+        .background(Color._F4F6F8)
         .padding(.horizontal, 20)
         .ignoresSafeArea()
         .navigationBarHidden(true)

@@ -39,6 +39,7 @@ struct Notifications: Codable {
     let notificationMessage: String
     let createdAt: String
     let createdTime: String
+    let isRead: Bool
 
     private enum CodingKeys: String, CodingKey {
         case userId = "userId"
@@ -48,6 +49,7 @@ struct Notifications: Codable {
         case notificationMessage = "notificationMessage"
         case createdAt = "createdAt"
         case createdTime = "createdTime"
+        case isRead = "isRead"
     }
 
 }

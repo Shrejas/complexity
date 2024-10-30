@@ -33,6 +33,9 @@ struct HomeView: View {
                                 case .newPostViewWithDetail(let brandName, let categoryDrinkItem, let drinkName):
                                     NewPostView(drinkBrand: brandName, categoryDrinkItem: categoryDrinkItem, drinkName: drinkName)
                                         .navigationBarBackButtonHidden()
+                                case .notificationView:
+                                    NotificationView()
+                                        .navigationBarBackButtonHidden()
                                 }
                             }
                     case .Find:
@@ -69,7 +72,7 @@ final class Router: ObservableObject {
         case drinkNameView(post: FeedPost)
         case drinkDetailProfileView(drinkID : Int)
         case newPostViewWithDetail(brandName: String, categoryDrinkItem: String, drinkName: String)
-        
+        case notificationView
 //        case newPostView()
     }
 

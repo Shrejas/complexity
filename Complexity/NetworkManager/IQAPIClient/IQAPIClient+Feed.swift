@@ -171,6 +171,18 @@ extension IQAPIClient{
     }
     
     @discardableResult
+    static func readNotification(id: Int? = nil, completionHandler: @escaping (_ httpURLResponse: HTTPURLResponse ,_ result: Swift.Result< NotificationModel, Error>) -> Void) -> DataRequest? {
+        let path = APIPath.readNotification.rawValue
+        var parameters: [String: Any] = [:]
+        if let id = id {
+            parameters["id"] = id
+        }
+        return IQAPIClient.default.refreshableSendRequest(path: path, method: .put, parameters: parameters, encoding: URLEncoding.queryString) { httpURLResponse, result in
+            completionHandler(httpURLResponse, result)
+        }
+    }
+    
+    @discardableResult
     static func getPostLikes(postId: Int, completionHandler: @escaping (_ httpURLResponse: HTTPURLResponse ,_ result: Swift.Result< PostLikes, Error>) -> Void) -> DataRequest? {
         let path = APIPath.getPostLikes.rawValue + "\(postId)"
                                          
