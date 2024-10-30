@@ -236,34 +236,7 @@ struct SignUpView: View {
                         Alert(title: Text(title), message: Text(alertMessage), dismissButton: .default(Text("OK")))
                     }
                     
-//                    Text("Or Sign In With")
-//                        .foregroundColor(Color._8A8E91)
-//                        .font(.muliFont(size: 15, weight: .regular))
-//                        .padding(.top,20)
                     VStack(spacing:50){
-//                        HStack (spacing:5){
-//                            Spacer()
-//                            Button(action: {
-//                                viewModel.signInWithGoole()
-//                            }) {
-//                                Image("google")
-//                                    .resizable()
-//                                    .frame(width: 50, height: 50)
-//                                    .aspectRatio(contentMode:.fill)
-//                            }
-//                            .cornerRadius(8)
-//                            Button(action: {
-//                                viewModel.performAppleSignIn()
-//                                
-//                            }) {
-//                                Image("apple")
-//                                    .resizable()
-//                                    .frame(width: 50, height: 50)
-//                            }
-//                            .cornerRadius(8)
-//                            Spacer()
-//                        }
-//                        .padding(.top,1)
                         VStack{
                             Spacer()
                             HStack(spacing:5){
@@ -305,10 +278,6 @@ struct SignUpView: View {
             }
             
         }
-        
-//        .navigationDestination(isPresented: $showHomeView) {
-//            HomeView()
-//        }
     }
     private func showAlert(title: String, message: String) {
         

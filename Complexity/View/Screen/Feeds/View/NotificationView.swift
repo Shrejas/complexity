@@ -50,29 +50,6 @@ struct NotificationView: View {
                             .foregroundColor(.black.opacity(0.5))
                     }
                 } else {
-//                    List {
-//                        ForEach(notifications.indices, id: \.self) { index in
-//                            ZStack {
-//                                Color._E9F2FE
-//                                CustomCell(imageName: notifications[index].profilePicture, text: notifications[index].notificationMessage, createdAt: notifications[index].createdTime, createdBy: notifications[index].name, userID: notifications[index].userId) { userId in
-//                                    handleProfileImageTap(userId: userId)
-//                                }
-//                                .background(Color._E9F2FE)
-//                                .onAppear {
-//                                    if notifications.count > feedViewModel.notificationPageSize * feedViewModel.notificationPageIndex {
-//                                        if index == notifications.count - 1 {
-//                                            feedViewModel.notificationPageIndex += 1
-//                                            feedViewModel.getNotification()
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-                    
-//                    .listRowBackground(Color._F4F6F8)
-//                    .listRowSpacing(10.0)
-                    
                     ScrollView {
                         VStack(spacing: 0) {
                             ForEach(notifications.indices, id: \.self) { index in

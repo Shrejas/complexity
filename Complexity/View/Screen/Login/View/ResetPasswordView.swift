@@ -177,11 +177,6 @@ struct ResetPasswordView: View {
                 }
             }
         }
-        //  .navigationBarHidden(true)
-//        .navigationDestination(isPresented: $isPasswordChangedView) {
-//            PasswordChangedView()
-//        }
-        
     }
     func validation() -> Bool{
         if password.isEmpty {
@@ -213,9 +208,6 @@ struct ResetPasswordView: View {
     }
 }
 
-//#Preview {
-////    ResetPasswordView(otp: .constant("") )
-//}
 
 
 

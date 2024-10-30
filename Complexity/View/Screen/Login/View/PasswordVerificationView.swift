@@ -141,10 +141,6 @@ struct PasswordVerificationView: View {
                 }
             }
         }
-        
-//        .navigationDestination(isPresented: $isResetViewTapped) {
-//            ResetPasswordView( userName: $isEmail, otp: $otpText)
-//        }
     }
 
     func validation(){

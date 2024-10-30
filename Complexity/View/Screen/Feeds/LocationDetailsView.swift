@@ -136,15 +136,7 @@ struct LocationDetailsView: View {
                 .presentationDetents([.fraction(0.8), .large])
             
         }
-//        .alert(isPresented: $viewModel.shouldShowApiAlert) {
-//            Alert(
-//                title: Text("Invalid"),
-//                message: Text(viewModel.errorMessage),
-//                dismissButton: .default(Text("OK"))
-//            )
-//        }
         .navigationBarBackButtonHidden(true)
-
         .navigationBarTitle(Text(post.location ?? "Location")
                             , displayMode: .inline)
         .toolbar {

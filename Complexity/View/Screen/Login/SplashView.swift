@@ -46,6 +46,6 @@ struct SplashView: View {
 struct SplashView_Previews: PreviewProvider {
     static var previews: some View {
         SplashView()
-            .environmentObject(AppViewModel()) // Provide a mock AppViewModel or set up as needed
+            .environmentObject(AppViewModel())
     }
 }

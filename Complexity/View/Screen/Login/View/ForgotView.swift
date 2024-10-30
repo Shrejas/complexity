@@ -95,11 +95,6 @@ struct ForgotView: View {
                 }
             }
         }
-        
-//        .navigationDestination(isPresented: $isVerifyTapped) {
-//            PasswordVerificationView(isEmail: $email)
-//        }
-        
     }
     
     private func showAlert(title: String, message: String, isPresent: Bool) {
@@ -126,7 +121,3 @@ struct ForgotView: View {
             }
     }
 }
-
-//#Preview {
-//    ForgotView()
-//}

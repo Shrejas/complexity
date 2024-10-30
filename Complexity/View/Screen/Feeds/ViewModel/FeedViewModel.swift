@@ -37,9 +37,6 @@ final class FeedViewModel: ObservableObject {
                     
                 }
             case .failure(let error):
-//                self.errorMessage = error.localizedDescription
-//                self.shouldShowApiAlert.toggle()
-                
                 getFeedData(pageIndex: 1, pageSize: 10)
             }
         }

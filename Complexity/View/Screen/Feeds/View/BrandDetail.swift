@@ -17,20 +17,6 @@ struct BrandDetail: View {
     @StateObject var viewModel: BrandViewModel = BrandViewModel()
     @State private var isSearching = false
     
-//    var filteredItems: [CategoryDrinkDataModel] {
-//        if searchText.isEmpty {
-//            return categoryDrinkItems
-//        } else {
-//            return categoryDrinkItems.filter { item in
-//                if let brandName = item.brandName?.lowercased() {
-//                    let searchText = searchText.lowercased()
-//                    return brandName.contains(searchText)
-//                }
-//                return false
-//            }
-//        }
-//    }
-    
     var body: some View {
         ZStack {
             VStack {

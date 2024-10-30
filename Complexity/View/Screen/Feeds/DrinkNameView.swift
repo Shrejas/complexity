@@ -30,13 +30,6 @@ struct DrinkNameView: View {
     var body: some View {
         VStack{
             ZStack {
-
-//                NavigationLink(isActive: $isDrinkNameViewShow) {
-//                    DrinkNameView(post: post)
-//                } label: {
-//                    EmptyView()
-//                }
-                
                 NavigationLink(isActive: $isShowProfileView) {
                     if let userInfo = self.userInfo {
                         PostProfileView(userInfo: userInfo, isShowProfileView: $isShowProfileView)
@@ -85,8 +78,6 @@ struct DrinkNameView: View {
                                         { post in
                                             
                                         } onDrinkNameTap: { post in
-                                            // selectedDetailPost = post
-                                            //isDrinkNameViewShow.toggle()
                                             
                                         } onDrinkImageTap: { post in
                                             selectedImagePost = post

@@ -132,17 +132,10 @@ struct UserProfileView: View {
                             ScrollView(showsIndicators: false) {
                                 LazyVStack(spacing: 10) {
                                     ForEach(Array(profileViewModel.posts.enumerated()), id: \.element.postId) { index, post in
-//                                        Button {
-//                                            selectedPostIndex = index
-//                                            isShowFeedDetailView = true
-//                                            
-//                                        } label: {
                                         PostFeedCellView(post: post) {
                                             selectedPostIndex = index
                                             isShowFeedDetailView = true
                                         }
-//                                        }
-                                        
                                         .onAppear {
                                             if index == profileViewModel.posts.count - 1 {
                                                 print("last id \(post.postId)")

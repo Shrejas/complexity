@@ -9,8 +9,6 @@ import SwiftUI
 
 extension Font {
 
-//    static var muliTitle: Font = Font.interDisplay(size: 28, weight: .bold)
-
     static func muliFont(size: CGFloat, weight: Font.Weight = .regular) -> Font {
         switch weight {
         case .regular:

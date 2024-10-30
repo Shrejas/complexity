@@ -67,11 +67,6 @@ struct UserInfoView: View {
                                     .foregroundColor(Color._8A8E91)
                             }
                         }
-                        //                        .onTapGesture {
-                        //                            if isLocationNameClickable {
-                        //                                onLocationTap()
-                        //                            }
-                        //                        }
                         HStack {
                             Image(systemName: "calendar")
                                 .resizable()
@@ -193,7 +188,6 @@ struct UserInfoView: View {
             })
             
         }
-//        .padding(.top, -40)
         .padding(.leading, 3)
     }
 }

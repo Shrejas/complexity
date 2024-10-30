@@ -65,7 +65,6 @@ public extension IQAPIClient {
 
                     if statusCode == NSURLClientError.unauthorized401.rawValue,
                        let message = response["message"] as? String {
-                        // Handle refresh case
                         let error = NSError(domain: "Server Error", code: IQNSURLServerError.accessTokenExpired.rawValue, userInfo:[NSLocalizedDescriptionKey: message])
                         return .error(error)
                     }
@@ -136,25 +135,5 @@ public extension IQAPIClient {
             completionHandler(httpURLResponse, result)
         }
     }
-
-//    @discardableResult
-//    static func refreshableSendRequest<Success>(path: String,
-//                                                method: HTTPMethod = .get,
-//                                                parameters: Parameters? = nil,
-//                                                encoding: ParameterEncoding = URLEncoding.default,
-//                                                forceMultipart: Bool = false,
-//                                                completionHandler: @escaping (_ result: Swift.Result<Success, Error>) -> Void) -> DataRequest {
-//        IQAPIClient.setUserAuthToken()
-//        let json = parameters
-//
-//        return sendRequest(path: path, method: method, parameters: json, encoding: encoding, forceMultipart: forceMultipart) { (_ result: Swift.Result<Success, Error>) in
-//            switch result {
-//            case .success(let result):
-//                completionHandler(.success(result))
-//            case .failure(let error):
-//                completionHandler(.failure(error))
-//            }
-//        }
-//    }
     
 }

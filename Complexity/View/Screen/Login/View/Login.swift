@@ -293,18 +293,6 @@ struct Login: View {
                 await notificationManager.request()
             }
         }
-                
-//        .navigationDestination(isPresented: $showCreateAccountView) {
-//            SignUpView()
-//        }
-//        
-//        .navigationDestination(isPresented: $isForgotTapped) {
-//            ForgotView()
-//        }
-//        
-//        .navigationDestination(isPresented: $showHomeView) {
-//            HomeView()
-//        }
     }
     
     private func rememberMeButtonAction() {
@@ -326,14 +314,7 @@ struct Login: View {
                title = "Email"
             return
         }
-        
-//        guard RegistrationHelper.validateEmail(email) else {
-//            showAlert = true
-//               alertMessage = "Please enter your email address."
-//               title = "Email"
-//            return
-//        }
-        
+
         guard !password.isEmpty else {
             showAlert = true
             alertMessage = "Password cannot be empty."

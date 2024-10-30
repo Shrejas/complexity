@@ -95,7 +95,4 @@ struct FindNearByItemCell: View {
     }
 }
 
-//#Preview {
-//    RestorantAndBarView(imgaeURL: [URL(string: "")]!)
-//}
 

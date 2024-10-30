@@ -45,7 +45,6 @@ struct HomeView: View {
                     }
                 }
 
-                // Show CustomTabBar only on main tabs
                 if router.navigationPath.isEmpty {
                     CustomTabBar(selectedTab: $tabSelected)
                         .padding(.bottom)
@@ -73,7 +72,6 @@ final class Router: ObservableObject {
         case drinkDetailProfileView(drinkID : Int)
         case newPostViewWithDetail(brandName: String, categoryDrinkItem: String, drinkName: String)
         case notificationView
-//        case newPostView()
     }
 
     @Published var navigationPath = NavigationPath()

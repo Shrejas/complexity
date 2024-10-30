@@ -123,8 +123,6 @@ func fontToUIFont(font: Font) -> UIFont {
             return UIFont.preferredFont(forTextStyle: .callout)
         case .caption:
             return UIFont.preferredFont(forTextStyle: .caption1)
-            //            case .caption2:
-            //                return UIFont.preferredFont(forTextStyle: .caption2)
         case .footnote:
             return UIFont.preferredFont(forTextStyle: .footnote)
         case .body:

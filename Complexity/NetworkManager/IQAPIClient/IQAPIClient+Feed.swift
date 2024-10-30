@@ -38,14 +38,8 @@ extension IQAPIClient{
             if let placeID = placeID, !placeID.isEmpty {
                 parameters["placeID"] = placeID
             }
-            
-//            if let drinkName = drinkName, drinkName.isEmpty {
                 parameters["drinkName"] = "hein"
-//            }
-            
-//            if let searchKeyword = searchKeyword, !searchKeyword.isEmpty {
-//                parameters["searchKeyword"] = searchKeyword
-//            }
+        
         return IQAPIClient.default.refreshableSendRequest(path: path, method: .post, parameters: parameters, encoding: JSONEncoding.default) { httpURLResponse, result in
             completionHandler(httpURLResponse, result)
         }

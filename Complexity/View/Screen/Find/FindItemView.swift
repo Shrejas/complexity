@@ -137,10 +137,6 @@ extension FindItemView{
     }
 }
 
-//#Preview {
-//    FindItemView( locationCoordinate: .constant(CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)), isSheetPresented: .constant(true), navigateToFindDetailView: .constant(true), selected: .constant(PlaceMarker(place: Place(), type: "")))
-//}
-
 extension Array {
     func chunked(into size: Int) -> [[Element]] {
         var chunks = [[Element]]()

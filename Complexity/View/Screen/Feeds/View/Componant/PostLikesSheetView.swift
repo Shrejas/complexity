@@ -54,9 +54,6 @@ struct PostLikesSheetView: View {
                             Spacer()
                         }
                         .onTapGesture {
-//                            selectedPostUserId = like.userId
-//                            selectedPostProfileImage = like.profilePicture
-//                            selectedPostProfileName = like.name
                             getProfileDetail(userId: like.userId)
                         }
                         
@@ -78,7 +75,6 @@ struct PostLikesSheetView: View {
                 Alert(title: Text("Error!"), message: Text(errorMessage), dismissButton: .default(Text("OK")))
             }
         }
-//        .navigationViewStyle(.stack)
     }
     
     private func getPostLikes(postId: Int) {

@@ -17,7 +17,6 @@ struct ContentView: View {
               Login()
             }
         }
-//        .navigationViewStyle(.stack)
     }
 }
 struct ContentView_Previews: PreviewProvider {

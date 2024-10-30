@@ -38,7 +38,6 @@ struct NewPostView: View {
     @State private var showCamera = false
     
     @State private var isImageSelected: Bool = false
-    // @State private var showAlert: Bool = false
     @State private var showHomeView: Bool = false
     @StateObject var viewModel: NewPostViewModel = NewPostViewModel()
     @State private var drinkCategory: String = ""
@@ -362,16 +361,6 @@ struct NewPostView: View {
     }
 }
 
-
-//#Preview {
-//    NewPostView(categoryDrinkItem: "", drinkDetail: Drinks)
-//}
-
-
-
-
-
-import SwiftUI
 
 struct SelectableTextField: View {
     var title: String
