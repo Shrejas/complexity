@@ -33,7 +33,7 @@ struct FindView: View {
     @State private var urlImages = [URL]()
     @State var isTapForLocationButton: Bool = false
     @State private var sheetOffset: CGFloat = 0.0
-    
+    @StateObject private var mapData = MapData()
     var googleClient: GoogleClientRequest = GoogleClient()
     
     var body: some View {
@@ -45,7 +45,7 @@ struct FindView: View {
                 EmptyView()
             }
 
-            MapView(isDetailActive: $isDetailActive, isTapForLocationButton: $isTapForLocationButton, placeId: $placeId, locationCoordinate: $locationCoordinate, locationCoordinate1: $locationCoordinate1, selected: $selected)
+            MapView(mapData: mapData, isDetailActive: $isDetailActive, isTapForLocationButton: $isTapForLocationButton, placeId: $placeId, locationCoordinate: $locationCoordinate, locationCoordinate1: $locationCoordinate1, selected: $selected)
                 .edgesIgnoringSafeArea(.all)
                 .offset(y: sheetOffset) // Adjust the offset of the map
 
@@ -134,9 +134,12 @@ struct FindView: View {
             )
         }
         .onChange(of: latitude) { _ in
-            locationCoordinate1 = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-            locationCoordinate = nil
-            imageNameClose = true
+            if latitude != 0.0 {
+                locationCoordinate1 = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                locationCoordinate = nil
+                imageNameClose = true
+                latitude = 0.0
+            }
         }
         .onChange(of: isTapForLocationButton){ valaue in
             if valaue {
@@ -150,6 +153,20 @@ struct FindView: View {
                         location = ""
                     }
                 }
+            }
+        }
+        .onReceive(locationModel.$latitude) { latitude in
+            // Update locationCoordinate when latitude is available
+            if let latitude = latitude, let longitude = locationModel.longitude {
+                locationCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                print("Updated location: \(latitude), \(longitude)") // Debugging output
+            }
+        }
+        .onReceive(locationModel.$longitude) { longitude in
+            // Update locationCoordinate when longitude is available
+            if let longitude = longitude, let latitude = locationModel.latitude {
+                locationCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                print("Updated location: \(latitude), \(longitude)") // Debugging output
             }
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -167,23 +184,6 @@ extension FindView{
 
         locationModel.requestManger()
 
-        DispatchQueue.main.async {
-            switch locationModel.authorizationStatus {
-
-            case .authorizedWhenInUse:
-                print("Current location data is allowed.")
-
-            case .restricted, .denied:
-                print("Current location data was restricted or denied.")
-                showAlert.toggle()
-
-            case .notDetermined:
-                print("Finding your location...")
-                locationModel.requestManger()
-            default:
-                print("Not determined")
-            }
-        }
     }
 }
 

@@ -46,7 +46,6 @@ struct NewPostView: View {
     @State public var drinkName = ""
     @State private var rotationAngle: Angle = .zero
     @State private var selectedImages: [UIImage] = []
-    @State public var isShowRotateView: Bool = false
     @State private var isDisableUI: Bool = false
     @EnvironmentObject var router: Router
     
@@ -228,11 +227,7 @@ struct NewPostView: View {
                         }
                     }
                 
-                    .fullScreenCover(isPresented: $isShowingPhotoPicker, onDismiss: {
-                        if !images.isEmpty {
-                            isShowRotateView = true
-                        }
-                    }) {
+                    .fullScreenCover(isPresented: $isShowingPhotoPicker) {
                         PhotoPicker(selectedImages: $images, imagesCount: $imagesCount)
                             .ignoresSafeArea(.all)
                     }
@@ -240,9 +235,9 @@ struct NewPostView: View {
             .fullScreenCover(isPresented: $openPlacePicker) {
                 PlacePicker(address: $location, openPlacePicker: $openPlacePicker, latitude: $latitude, longitude: $longitude, placeId: $placeId)
             }
-            .fullScreenCover(isPresented: $isShowRotateView){
-                RotateImageView(isShowRotateView: $isShowRotateView, images: $images)
-            }
+//            .fullScreenCover(isPresented: $isShowRotateView){
+//                RotateImageView(isShowRotateView: $isShowRotateView, images: $images)
+//            }
             .onChange(of: categoryDrinkItem) { newValue in
                 drinkBrand = newValue
             }
@@ -253,14 +248,12 @@ struct NewPostView: View {
                 drinkSubCategory = newValue?.subCategory ?? ""
             }
         }
-        .fullScreenCover(isPresented: $showCamera, onDismiss: {
-            if !images.isEmpty {
-                isShowRotateView = true
-            }
-        }) {
+        
+        .fullScreenCover(isPresented: $showCamera) {
             CameraView(selectedImage: self.$images)
                 .ignoresSafeArea(.all)
         }
+        
         .alert(isPresented: $showAlert) {
             Alert(title: Text(title), message: Text(alertMessage), dismissButton: .default(Text("OK")))
         }

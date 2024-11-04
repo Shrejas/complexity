@@ -9,20 +9,40 @@ import Foundation
 import CoreLocation
 
 class LocationDataManager: NSObject, ObservableObject, CLLocationManagerDelegate {
-
+    
     private var locationManager = CLLocationManager()
     @Published var authorizationStatus: CLAuthorizationStatus?
     @Published var latitude: Double?
     @Published var longitude: Double?
-
+    
     override init() {
         super.init()
         locationManager.delegate = self
+        requestManger() // Request location permissions when initializing
+    }
+
+    // Request location permission based on current authorization status
+    func requestManger() {
+        switch CLLocationManager.authorizationStatus() {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .denied, .restricted:
+            print("Location access was denied or restricted.")
+            authorizationStatus = CLLocationManager.authorizationStatus()
+        case .authorizedWhenInUse, .authorizedAlways:
+            authorizationStatus = CLLocationManager.authorizationStatus()
+            locationManager.startUpdatingLocation()
+        @unknown default:
+            // Handle any future authorization cases
+            print("Unhandled authorization status.")
+        }
     }
 
     func requestLocation() {
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
+        // Ensure the location manager is set to request the location when in use
+        if authorizationStatus == .authorizedWhenInUse {
+            locationManager.startUpdatingLocation()
+        }
     }
 
     func requestLocationStop() {
@@ -33,6 +53,7 @@ class LocationDataManager: NSObject, ObservableObject, CLLocationManagerDelegate
         guard let location = locations.last else { return }
         self.latitude = location.coordinate.latitude
         self.longitude = location.coordinate.longitude
+        print("Updated location: \(latitude ?? 0.0), \(longitude ?? 0.0)")
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -40,47 +61,15 @@ class LocationDataManager: NSObject, ObservableObject, CLLocationManagerDelegate
     }
 
     func distanceBetweenLocations1(location: CLLocation) -> CLLocationDistance? {
-        if let latitude = latitude, let longitude  = longitude{
-            let cL =  CLLocation(latitude: latitude, longitude:longitude)
+        if let latitude = latitude, let longitude = longitude {
+            let cL = CLLocation(latitude: latitude, longitude: longitude)
             return cL.distance(from: location)
         }
         return nil
     }
 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        switch manager.authorizationStatus {
-        case .authorizedWhenInUse:  // Location services are available.
-            // Insert code here of what should happen when Location services are authorized
-            authorizationStatus = .authorizedWhenInUse
-            locationManager.requestLocation()
-            break
-
-        case .restricted:  // Location services currently unavailable.
-            // Insert code here of what should happen when Location services are NOT authorized
-            authorizationStatus = .restricted
-            break
-
-        case .denied:  // Location services currently unavailable.
-            // Insert code here of what should happen when Location services are NOT authorized
-            authorizationStatus = .denied
-            break
-
-        case .notDetermined:        // Authorization not determined yet.
-            authorizationStatus = .notDetermined
-            manager.requestWhenInUseAuthorization()
-            break
-
-        default:
-            break
-        }
+        // Call requestManger to handle authorization state changes
+        requestManger()
     }
-
-    func requestManger(){
-        if self.authorizationStatus == .notDetermined {
-            self.locationManager.requestAlwaysAuthorization()
-        }
-    }
-
 }
-
-

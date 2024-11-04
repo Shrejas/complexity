@@ -9,22 +9,24 @@ import SwiftUI
 import GoogleMaps
 import GooglePlaces
 
-struct MapView: UIViewRepresentable{
+class MapData: ObservableObject {
+    @Published var oldPin: [Place] = []
+}
 
+struct MapView: UIViewRepresentable {
+    @ObservedObject var mapData: MapData
     var locationModel = LocationDataManager()
     @Binding var isDetailActive: Bool
     @Binding var isTapForLocationButton: Bool
     @Binding var placeId: String
     @Binding var locationCoordinate: CLLocationCoordinate2D?
     @Binding var locationCoordinate1: CLLocationCoordinate2D?
-    @Binding var selected:PlaceMarker
+    @Binding var selected: PlaceMarker
     @State private var pinIsSet = true
-
-    var oldPin = [Place]()
 
     let locationManager = CLLocationManager()
     let mapView = GMSMapView()
-    let googleClient : GoogleClientRequest = GoogleClient()
+    let googleClient: GoogleClientRequest = GoogleClient()
 
     func makeUIView(context: Context) -> GMSMapView {
         mapView.isMyLocationEnabled = true
@@ -126,13 +128,12 @@ struct MapView: UIViewRepresentable{
         }
 
         func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-            // Handle map tap
+            // Handle map tap if needed
         }
 
         func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
-            // Handle map idle event
+            // Handle map idle event if needed
         }
-
 
         func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
             if marker is PlaceMarker {
@@ -147,7 +148,7 @@ struct MapView: UIViewRepresentable{
             isTapForLocationButton = true
             return true
         }
-        // This method will be called when the "My Location" button is tapped.
+
         func mapView(_ mapView: GMSMapView, didTapMyLocationButtonFor locationManager: CLLocationManager) -> Bool {
             if let location = mapView.myLocation?.coordinate {
                 let camera = GMSCameraPosition.camera(withLatitude: location.latitude,
@@ -179,13 +180,12 @@ struct MapView: UIViewRepresentable{
             completion(response.results)
         }
     }
-    
+
     func fetchPlaceDetails(completion: @escaping (Place) -> Void) {
         googleClient.fetchPlaceDetails(placeID: placeId) { place in
-            if let p = place{
+            if let p = place {
                 completion(p)
             }
         }
     }
 }
-
