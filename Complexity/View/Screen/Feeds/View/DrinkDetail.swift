@@ -82,7 +82,6 @@ struct DrinkDetail: View {
                                 }
                             }
                         }
-
                     }
                     .padding(.horizontal, 16)
                     .onChange(of: viewModel.searchText, perform: { value in

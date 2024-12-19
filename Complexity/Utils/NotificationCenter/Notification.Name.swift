@@ -13,4 +13,5 @@ extension Notification.Name {
     static let callRefreshMethod = Notification.Name(StringConstants.NotificationName.callRefreshMethod)
     static let navigateToUserProfile = Notification.Name("navigateToUserProfile")
     static let postDeleted = Notification.Name("postDeleted")
+    static let placeSearchedAgain = Notification.Name("placeSearchedAgain")
 }

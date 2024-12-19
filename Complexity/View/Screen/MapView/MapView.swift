@@ -9,13 +9,8 @@ import SwiftUI
 import GoogleMaps
 import GooglePlaces
 
-class MapData: ObservableObject {
-    @Published var oldPin: [Place] = []
-}
-
 struct MapView: UIViewRepresentable {
-    @ObservedObject var mapData: MapData
-    var locationModel = LocationDataManager()
+    @ObservedObject public var locationModel: LocationDataManager
     @Binding var isDetailActive: Bool
     @Binding var isTapForLocationButton: Bool
     @Binding var placeId: String
@@ -23,6 +18,7 @@ struct MapView: UIViewRepresentable {
     @Binding var locationCoordinate1: CLLocationCoordinate2D?
     @Binding var selected: PlaceMarker
     @State private var pinIsSet = true
+    @Binding public var title: String
 
     let locationManager = CLLocationManager()
     let mapView = GMSMapView()
@@ -42,9 +38,7 @@ struct MapView: UIViewRepresentable {
 
         var oldPin = [Place]()
         if locationCoordinate1 == nil {
-            
             uiView.clear()
-            
             if let newLocation = locationCoordinate {
                 DispatchQueue.main.async {
                     let camera = GMSCameraPosition.camera(withLatitude: newLocation.latitude,
@@ -52,10 +46,10 @@ struct MapView: UIViewRepresentable {
                                                           zoom: 14)
                     uiView.camera = camera
                 }
-
+                
                 let searchedTypes = ["restaurant", "bar"]
                 let dispatchGroup = DispatchGroup()
-
+                
                 for (index, type) in searchedTypes.enumerated() {
                     dispatchGroup.enter()
                     self.fetchNearbyRestaurants(location: newLocation, type: type) { result in
@@ -81,7 +75,7 @@ struct MapView: UIViewRepresentable {
                         dispatchGroup.leave()
                     }
                 }
-
+                
                 dispatchGroup.notify(queue: .main) {}
             }
         } else if let newLocation = locationCoordinate1 {
@@ -96,19 +90,21 @@ struct MapView: UIViewRepresentable {
             
             let searchedTypes = ["restaurant", "bar"]
             let dispatchGroup = DispatchGroup()
-            
             dispatchGroup.enter()
-            
             fetchPlaceDetails { result in
                 DispatchQueue.main.async {
                     let type = result.types?.first ?? ""
                     let placeMarker = PlaceMarker(place: result, type: type)
                     placeMarker.title = result.name
                     placeMarker.map = uiView
+                    if title != placeMarker.title  {
+                        title = placeMarker.title ?? ""
+                        self.selected = placeMarker
+                        isDetailActive.toggle()
+                    }
                     dispatchGroup.leave()
                 }
             }
-
             dispatchGroup.notify(queue: .main) {}
         }
     }
@@ -161,7 +157,7 @@ struct MapView: UIViewRepresentable {
     }
 
     func setMapViewPin(){
-        if pinIsSet{
+        if pinIsSet {
             locationModel.requestLocation()
             DispatchQueue.main.async {
                 let location = CLLocationCoordinate2D(latitude: locationModel.latitude ?? 0, longitude: locationModel.longitude ?? 0)

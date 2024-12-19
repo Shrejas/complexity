@@ -5,8 +5,7 @@ import HalfASheet
 
 struct FindView: View {
 
-    @StateObject var locationModel = LocationDataManager()
-   // @StateObject private var store: LocationFeedStore
+    @StateObject public var locationModel = LocationDataManager()
     @State private var isSet: Bool = true
     @State private var showSheet: Bool = false
     @State private var text: String = ""
@@ -33,8 +32,8 @@ struct FindView: View {
     @State private var urlImages = [URL]()
     @State var isTapForLocationButton: Bool = false
     @State private var sheetOffset: CGFloat = 0.0
-    @StateObject private var mapData = MapData()
     var googleClient: GoogleClientRequest = GoogleClient()
+    @State public var title: String = ""
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -45,7 +44,7 @@ struct FindView: View {
                 EmptyView()
             }
 
-            MapView(mapData: mapData, isDetailActive: $isDetailActive, isTapForLocationButton: $isTapForLocationButton, placeId: $placeId, locationCoordinate: $locationCoordinate, locationCoordinate1: $locationCoordinate1, selected: $selected)
+            MapView( locationModel: locationModel, isDetailActive: $isDetailActive, isTapForLocationButton: $isTapForLocationButton, placeId: $placeId, locationCoordinate: $locationCoordinate, locationCoordinate1: $locationCoordinate1, selected: $selected, title: $title)
                 .edgesIgnoringSafeArea(.all)
                 .offset(y: sheetOffset) // Adjust the offset of the map
 
@@ -96,6 +95,7 @@ struct FindView: View {
             .onTapGesture {
                 openPlacePicker.toggle()
             }
+            
             HalfASheet(isPresented: $isDetailActive) {
                 FindItemView(locationCoordinate: $locationCoordinate, isSheetPresented: $isDetailActive, navigateToFindDetailView: $navigateToFindDetailView, selected: $selected, distance: $distance, urlImages: $urlImages, placeId: $selectedPlaceId)
                     .navigationViewStyle(StackNavigationViewStyle())
@@ -117,6 +117,7 @@ struct FindView: View {
         .fullScreenCover(isPresented: $openPlacePicker) {
             PlacePicker(address: $location, openPlacePicker: $openPlacePicker, latitude: $latitude, longitude: $longitude, placeId: $placeId, filterType: .establishment)
                 .onAppear{
+                    title = ""
                     isTapForLocationButton = false
                 }
         }
