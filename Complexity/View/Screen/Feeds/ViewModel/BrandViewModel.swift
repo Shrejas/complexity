@@ -33,11 +33,7 @@ final class BrandViewModel: ObservableObject {
 
                 case .failure(let error):
                     self.errorMessage = error.localizedDescription
-                    if self.errorMessage == "Response could not be serialized, input data was nil or zero length." {
-                        self.getBrandName()
-                    } else {
                         self.showAlert.toggle()
-                    }
                 }
             }
         }

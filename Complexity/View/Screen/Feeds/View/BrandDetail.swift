@@ -53,7 +53,7 @@ struct BrandDetail: View {
                                 ) {
 
                                     if brands.count > 0 {
-                                        ForEach(brands, id: \.brandName) { item in
+                                        ForEach(brands, id: \.brandImage) { item in
                                             VStack {
                                                 KFImage(URL(string: item.brandImage))
                                                     .loadDiskFileSynchronously()

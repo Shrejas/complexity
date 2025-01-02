@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct BrandModel: Codable{
+struct BrandModel: Codable {
     let brands: [Brands]
     let isSucceed: Bool
     let message: String

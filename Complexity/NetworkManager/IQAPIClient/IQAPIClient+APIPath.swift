@@ -6,7 +6,7 @@
 //
 
 import Foundation
-public enum APIPath: String{
+public enum APIPath: String {
     
 #if DEV
 
